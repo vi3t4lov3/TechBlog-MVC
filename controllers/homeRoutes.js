@@ -8,6 +8,7 @@ routes.get('/',async (req,res)=>{
     
     // Get all alerts and JOIN with user data
     const blogData = await Blog.findAll({
+      
       include: [
         {
           model: User,
@@ -16,12 +17,22 @@ routes.get('/',async (req,res)=>{
         },
       ],
     });
+    const commentData = await Comment.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ['username']
+        }
+      ]
+    })
     // Serialize data so the template can read it
     const blogs = blogData.map((blog) => blog.get({ plain: true }));
+    const comments = commentData.map((comment) => comment.get({ plain: true }));
     // Pass serialized data and session flag into template
     // console.log('alerts', alerts);
     res.render('homepage', {
       blogs,
+      comments,
       loggedIn: req.session.loggedIn,
       userID: req.session.user_id,
     });
@@ -57,13 +68,13 @@ routes.get('/edit/:id',withAuth, async (req, res) => {
         model: User,
         attributes: ['username'],
       },
-      // {
-      //   model: Comment,
-      //   include: {
-      //     model: User,
-      //     attributes: ['username'],
-      //   },
-      // },
+      {
+        model: Comment,
+        include: {
+          model: User,
+          attributes: ['username'],
+        },
+      },
     ],
   });
 // console.log( blogData)
@@ -82,13 +93,13 @@ routes.get('/blog/:id',withAuth, async (req, res) => {
         model: User,
         attributes: ['username'],
       },
-      // {
-      //   model: Comment,
-      //   include: {
-      //     model: User,
-      //     attributes: ['username'],
-      //   },
-      // },
+      {
+        model: Comment,
+        include: {
+          model: User,
+          attributes: ['username'],
+        },
+      },
     ],
   });
 // console.log( blogData)

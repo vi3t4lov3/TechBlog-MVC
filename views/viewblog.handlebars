@@ -9,16 +9,25 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item">{{content}}</li>
     
-   <li class="list-group-item text-end"><span for="img" aria-label="stoploss">✍️</span> Author by: {{user.username}} post on {{format_date createdAt}}</li>
+   <li class="list-group-item text-end"><span for="img" aria-label="stoploss">✍️</span> Author by: {{user.username}} post on {{format_date createdAt}}
+   {{#if canDelete}}
+   <button id="delete-blog" data-id="{{id}}"  type="button" class="btn btn-link" >Delete</button> 
+      <button id="edit-blog" data-id="{{id}}"  type="button" class="btn btn-link" ><a href ="/edit/{{id}}">Edit</a></button> {{/if}}</li>
   </ul>
-  {{#if canDelete}}
-  <div class="card-body text-center">
-      <button id="delete-blog" data-id="{{id}}"  type="button" class="btn btn-link" >Delete</button> 
-      <button id="edit-blog" data-id="{{id}}"  type="button" class="btn btn-link" ><a href ="/edit/{{id}}">Edit</a></button>
-      
-  </div>
-  {{/if}}
 </div>
 
 
+  <div class="card my-3">
+  <div class="card-body bg-light text-start">
+  <h5 class="card-title">💬 Comment</h5>
+  </div>
+  {{#each comments as |comment|}}
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">{{comment.comment}}</li>
+    
+   <li class="list-group-item text-end"><span for="img" aria-label="stoploss">✍️</span> comment by: {{comment.user.username}} on {{format_date createdAt}}</li>
+  </ul>
+{{/each}}
+
+<script src="/js/comment.js"></script>
 <script src='/js/delete.js'></script>
