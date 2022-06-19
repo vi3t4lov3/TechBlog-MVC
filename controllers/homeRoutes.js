@@ -50,6 +50,30 @@ routes.get('/blog', (req, res) => {
     loggedIn: req.session.loggedIn,
   });
 });
+routes.get('/edit/:id',withAuth, async (req, res) => {
+  const blogData = await Blog.findByPk(req.params.id, {
+    include: [
+      {
+        model: User,
+        attributes: ['username'],
+      },
+      // {
+      //   model: Comment,
+      //   include: {
+      //     model: User,
+      //     attributes: ['username'],
+      //   },
+      // },
+    ],
+  });
+// console.log( blogData)
+  const blog = blogData.get({ plain: true });
+  res.render('editblog', {
+    ...blog,
+    canDelete: blog.user_id === req.session.user_id,
+    loggedIn: req.session.loggedIn,
+  });
+});
 //view alert by id routes
 routes.get('/blog/:id',withAuth, async (req, res) => {
   const blogData = await Blog.findByPk(req.params.id, {
@@ -77,8 +101,8 @@ routes.get('/blog/:id',withAuth, async (req, res) => {
 });
 
 //get the profile page from handlebars
-routes.get('/profile',withAuth, async (req,res)=>{
-  res.render('profile')
+routes.get('/dashboard',withAuth, async (req,res)=>{
+  res.render('dashboard')
 })
 //get profile information by id 
 routes.get('/profile/:id',withAuth, (req, res) => {
