@@ -1,18 +1,17 @@
 // login DOM
-const searchEl = document.getElementById('search-ticker');
+const searchEl = document.getElementById('search-title');
 const searchButton = document.getElementById('search-btn');
-const currentPrice = document.getElementById('symbol-list');
 
 const sendSearch = async (e) => {
     e.preventDefault();
-    const ticker =  searchEl.value.trim().toUpperCase();
+    const blogTitle =  searchEl.value.trim();
 
-    if (ticker) {
-        const response = await fetch(`/search/${ticker}`)
+    if (blogTitle) {
+        const response = await fetch(`/search/${blogTitle}`)
         if (response.ok) {
-          document.location.replace(`/search/${ticker}`);
+          document.location.replace(`/search/${blogTitle}`);
         } else {
-          alert('No Alert found for this Ticker.');
+          alert('No blog found.');
         }
       }
     };

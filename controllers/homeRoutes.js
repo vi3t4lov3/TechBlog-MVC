@@ -45,11 +45,11 @@ routes.get('/login',async (req,res)=>{
 routes.get('/signup',async (req,res)=>{
   res.render('signup')
 })
-routes.get('/blog', (req, res) => {
-  res.render('createblog', {
-    loggedIn: req.session.loggedIn,
-  });
-});
+// routes.get('/blog', (req, res) => {
+//   res.render('createblog', {
+//     loggedIn: req.session.loggedIn,
+//   });
+// });
 routes.get('/edit/:id',withAuth, async (req, res) => {
   const blogData = await Blog.findByPk(req.params.id, {
     include: [
@@ -100,9 +100,33 @@ routes.get('/blog/:id',withAuth, async (req, res) => {
   });
 });
 
-//get the profile page from handlebars
-routes.get('/dashboard',withAuth, async (req,res)=>{
-  res.render('dashboard')
+//dashboard listing all the blogs from user-id
+routes.get('/dashboard',withAuth, async (req, res) => {
+  //router.get('/dashboard', async (req, res) => {
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: Blog }],
+    });
+
+    const user = userData.get({ plain: true });
+console.log(user, user)
+    // console.log('user', user);
+    res.render('dashboard', {
+      ...user,
+      loggedIn: req.session.loggedIn,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// //get the profile page from handlebars
+routes.get('/createblog',withAuth, async (req,res)=>{
+  res.render('createblog', {
+    loggedIn: req.session.loggedIn,
+  })
 })
 //get profile information by id 
 routes.get('/profile/:id',withAuth, (req, res) => {
