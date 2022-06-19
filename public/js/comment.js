@@ -2,20 +2,25 @@
 const commentEl = document.querySelector('#create-comment');
 const commentSubmit = document.querySelector('#comment-submit')
 
+
 //function for submission 
 const addComment = async (e) => {
     e.preventDefault();
-    if (e.target.hasAttribute('data-id')) {
-        const id = e.target.getAttribute('data-id');
-        console.log(id)
+        const blog_id = window.location.toString().split('/')[
+            window.location.toString().split('/').length - 1
+          ];
+        //   console.log(blog_id)
+        //   console.log(id)
+          
     const commentBody = {
-        comment: commentEl.value,
-        blog_id: id
+        comment: commentEl.value.trim(),
+        blog_id
     };
 
-    console.log(commentBody)
+    // console.log(commentBody)
 
-    // sending event details to the server using POST request
+    
+         // sending event details to the server using POST request
     const fetchNewEvent = await fetch('/api/comment', {
         method: 'POST',
         headers:{
@@ -24,16 +29,17 @@ const addComment = async (e) => {
         body: JSON.stringify(commentBody),
     });
     
+   
+    
     //if the submission is successful then go to the users personal page
     if(fetchNewEvent.ok){
-        document.location.replace('/dashboad');
+        document.location.reload();
     }
     //otherwise if it doesn't work then send text notification of error
     else{
         alert(fetchNewEvent.statusText);
     }
 }
-}
-
+// addComment()
 //on submit button being clicked then add the details.
 commentSubmit.addEventListener('submit', addComment);

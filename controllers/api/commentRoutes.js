@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const  Comment  = require('../../models');
+const  {Comment}  = require('../../models');
 const withAuth = require('../../utils/auth');
 
 router.get('/', (req, res) => {
     Comment.findAll({
-
+        // order: [['created_at', 'DESC']]
     })
       .then((results) => {
         res.json(results);
@@ -16,13 +16,12 @@ router.get('/', (req, res) => {
       });
   });
 
-
+//add comment 
 router.post('/', async (req, res) => {
 try {
     const newComment = await Comment.create({
-    ...req.body,
-    user_id: req.session.user_id,
-    blog_id: req.session.blog_id
+        ...req.body,
+        user_id: req.session.user_id
     });
 
     res.status(200).json(newComment);
@@ -31,40 +30,54 @@ try {
 }
 });
 
-router.put('/:id', withAuth, async (req, res) => {
-try {
-    const updatedComment = await Comment.update(
-    {
-        ...req.body,
-    },
-    { where: { id: req.params.id } }
-    );
-
-    res.status(200).json(updatedComment);
-} catch (err) {
-    console.log(err);
-    res.status(400).json(err);
-}
-});
-
-router.delete('/:id', withAuth, async (req, res) => {
-try {
-    const comment = await Comment.destroy({
-    where: {
+// delete comment by id
+router.delete('/:id',withAuth, (req, res) => {
+    Comment.destroy({
+      where: {
         id: req.params.id,
         user_id: req.session.user_id,
-    },
+      },
+    })
+      .then((results) => {
+        // if there are no results, set status to 404 and inform user that ID is not found
+        if (!results) {
+          res.status(404).json({
+            message: `No comment with Id ${req.params.id} found. Please try again with different ID.`,
+          });
+          return;
+        }
+        // else, respond with results
+        res.json({ message: 'Comment deleted successfully' });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  });
+  
+  // update comment
+  router.put('/:id', withAuth, (req, res) => {
+    Comment.update(
+      {
+        comment: req.body.comment,
+      },
+      {
+        where: {
+          id: req.params.id,
+          user_id: req.session.user_id,
+        },
+      }
+    )
+    .then((results) => {
+      res.json({
+        message: 'Comment update successfully',
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
     });
-
-    if (!comment) {
-    res.status(404).json({ message: 'No comment found with this id!' });
-    return;
-    }
-
-    res.status(200).json(comment);
-} catch (err) {
-    res.status(500).json(err);
-}
-});
+  });
+  
 
 module.exports = router;

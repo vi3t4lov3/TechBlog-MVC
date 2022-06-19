@@ -1,6 +1,6 @@
 const deleteButton = document.querySelector('#delete-blog')
 
-
+//delete blog
 const deleteHandler = async (e) => {
     if (e.target.hasAttribute('data-id')) {
       const id = e.target.getAttribute('data-id');
@@ -14,5 +14,8 @@ const deleteHandler = async (e) => {
     }
   };
   
+
+
   deleteButton.addEventListener('click', deleteHandler);
+
   

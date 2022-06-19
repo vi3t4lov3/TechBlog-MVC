@@ -4,7 +4,9 @@ const withAuth = require('../../utils/auth');
 // Routes for '/api/blog
 // get all blog
 router.get('/', (req, res) => {
-  Blog.findAll({})
+  Blog.findAll({
+    order: [['updated_at', 'DESC']]
+  })
     .then((results) => {
       res.json(results);
 
@@ -63,6 +65,12 @@ router.delete('/:id',withAuth, (req, res) => {
       id: req.params.id,
       user_id: req.session.user_id,
     },
+  })
+  //delete all the comments as well when blog-id deleted
+  Comment.destroy({
+    where: {
+      blog_id: req.params.id
+    }
   })
     .then((results) => {
       // if there are no results, set status to 404 and inform user that ID is not found

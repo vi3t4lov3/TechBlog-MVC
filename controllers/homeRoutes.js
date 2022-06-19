@@ -8,7 +8,7 @@ routes.get('/',async (req,res)=>{
     
     // Get all alerts and JOIN with user data
     const blogData = await Blog.findAll({
-      
+      order: [['updated_at', 'DESC']],
       include: [
         {
           model: User,
@@ -19,6 +19,7 @@ routes.get('/',async (req,res)=>{
     });
     const commentData = await Comment.findAll({
       include: [
+       
         {
           model: User,
           attributes: ['username']
