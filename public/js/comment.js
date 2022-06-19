@@ -26,7 +26,7 @@ const addComment = async (e) => {
     
     //if the submission is successful then go to the users personal page
     if(fetchNewEvent.ok){
-        document.location.replace('/');
+        document.location.replace('/dashboad');
     }
     //otherwise if it doesn't work then send text notification of error
     else{
