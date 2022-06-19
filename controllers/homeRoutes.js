@@ -34,7 +34,7 @@ routes.get('/',async (req,res)=>{
       blogs,
       comments,
       loggedIn: req.session.loggedIn,
-      userID: req.session.user_id,
+      user_id: req.session.user_id,
     });
 
   } catch (err) {

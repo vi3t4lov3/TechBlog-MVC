@@ -7,6 +7,6 @@ const homeRoutes = require('./homeRoutes')
 routes.use('/', homeRoutes);
 routes.use('/api/user', userRoutes);
 routes.use('/api/blog', blogRoutes)
-// routes.use('/comments', commentRoutes)
+routes.use('/api/comment', commentRoutes)
 
 module.exports = routes;

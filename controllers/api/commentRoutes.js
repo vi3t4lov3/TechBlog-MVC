@@ -1,12 +1,28 @@
 const router = require('express').Router();
-const { Comment } = require('../../models');
+const  Comment  = require('../../models');
 const withAuth = require('../../utils/auth');
 
-router.post('/', withAuth, async (req, res) => {
+router.get('/', (req, res) => {
+    Comment.findAll({
+
+    })
+      .then((results) => {
+        res.json(results);
+  
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  });
+
+
+router.post('/', async (req, res) => {
 try {
     const newComment = await Comment.create({
     ...req.body,
-    userId: req.session.user_id,
+    user_id: req.session.user_id,
+    blog_id: req.session.blog_id
     });
 
     res.status(200).json(newComment);
@@ -36,7 +52,7 @@ try {
     const comment = await Comment.destroy({
     where: {
         id: req.params.id,
-        userId: req.session.user_id,
+        user_id: req.session.user_id,
     },
     });
 
