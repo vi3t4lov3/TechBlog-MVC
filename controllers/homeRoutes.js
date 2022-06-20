@@ -34,6 +34,7 @@ routes.get('/',async (req,res)=>{
     res.render('homepage', {
       blogs,
       comments,
+      canDeleteComment: comments.user_id === req.session.user_id,
       loggedIn: req.session.loggedIn,
       user_id: req.session.user_id,
     });
@@ -86,6 +87,25 @@ routes.get('/edit/:id',withAuth, async (req, res) => {
     loggedIn: req.session.loggedIn,
   });
 });
+
+routes.get('/editcomment/:id',withAuth, async (req, res) => {
+  const commentData = await Comment.findByPk(req.params.id, {
+    include: [
+      {
+        model: User,
+        attributes: ['username'],
+      },
+      
+    ],
+  });
+// console.log( commentData)
+  const comment = commentData.get({ plain: true });
+  res.render('editcomment', {
+    ...comment,
+    canDeleteComment: comment.user_id === req.session.user_id,
+    loggedIn: req.session.loggedIn,
+  });
+});
 //view alert by id routes
 routes.get('/blog/:id',withAuth, async (req, res) => {
   const blogData = await Blog.findByPk(req.params.id, {
@@ -103,6 +123,7 @@ routes.get('/blog/:id',withAuth, async (req, res) => {
       },
     ],
   });
+  
 // console.log( blogData)
   const blog = blogData.get({ plain: true });
   res.render('viewblog', {
@@ -111,6 +132,26 @@ routes.get('/blog/:id',withAuth, async (req, res) => {
     loggedIn: req.session.loggedIn,
   });
 });
+
+//view alert by id routes
+routes.get('/comment/:id',withAuth, async (req, res) => {
+  const commentData = await Comment.findAll({
+    include: [
+      {
+        model: User,
+        attributes: ['username']
+      }
+    ]
+  })
+  const comments = commentData.map((comment) => comment.get({ plain: true }));
+  res.render('viewblog', {
+    ...comments,
+    canDeleteComment: comments.user_id === req.session.user_id,
+    loggedIn: req.session.loggedIn,
+  });
+});
+
+
 
 //dashboard listing all the blogs from user-id
 routes.get('/dashboard',withAuth, async (req, res) => {
