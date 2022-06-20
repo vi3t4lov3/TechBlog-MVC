@@ -1,7 +1,7 @@
 {
-  "name": "15-project2-stock-alert-tracker",
+  "name": "tech-blog-mvc",
   "version": "1.0.0",
-  "description": "",
+  "description": "Repo: https://github.com/vi3t4lov3/TechBlog-MVC ## Description Build a CMS-style blog site similar to a Wordpress site, where developers can publish their blog posts and comment on other developers’ posts as well. You’ll build this site completely from scratch and deploy it to Heroku. Your app will follow the MVC paradigm in its architectural structure, using Handlebars.js as the templating language, Sequelize as the ORM, and the express-session npm package for authentication.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Danqest/15-Project2-Stock-Alert-Tracker.git"
+    "url": "git+https://github.com/TechBlog-MVC.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Danqest/15-Project2-Stock-Alert-Tracker/issues"
+    "url": "https://github.com/vi3t4lov3/TechBlog-MVC/issues"
   },
-  "homepage": "https://github.com/Danqest/15-Project2-Stock-Alert-Tracker#readme",
+  "homepage": "https://github.com/vi3t4lov3/TechBlog-MVC#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "connect-session-sequelize": "^7.1.4",
