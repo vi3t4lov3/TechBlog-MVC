@@ -1,5 +1,6 @@
 # Tech Blog Using MVC
 Repo: https://github.com/vi3t4lov3/TechBlog-MVC
+
 Demo: https://desolate-garden-30098.herokuapp.com
 ## Description
 Build a CMS-style blog site similar to a Wordpress site, where developers can publish their blog posts and comment on other developers’ posts as well. You’ll build this site completely from scratch and deploy it to Heroku. Your app will follow the MVC paradigm in its architectural structure, using Handlebars.js as the templating language, Sequelize as the ORM, and the express-session npm package for authentication.
@@ -31,7 +32,7 @@ You can run a local copy of this site by issuing the following commands.
 
 ```bash
 $ git clone https://github.com/vi3t4lov3/TechBlog-MVC.git
-$ cd E-Commerce-Back-End
+$ cd TechBlog-MVC
 $ Dont forget to run SOURCE schema.sql & seeds.sql in db folder
 $ run npm init 
 $ npm node .
