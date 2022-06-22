@@ -1,5 +1,6 @@
-const deleteCommentButton = document.querySelector('#delete-comment')
+const deleteCommentButtons = document.querySelectorAll('.delete-comment')
   //delete comment
+
   const deleteCommentHandler = async (e) => {
     if (e.target.hasAttribute('data-id')) {
       const id = e.target.getAttribute('data-id');
@@ -12,4 +13,7 @@ const deleteCommentButton = document.querySelector('#delete-comment')
       document.location.reload();
     }
   };
-deleteCommentButton.addEventListener('click', deleteCommentHandler);
+deleteCommentButtons.forEach((commentButton) => {
+  commentButton.addEventListener('click', deleteCommentHandler);
+})
+
